@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { OpenApiDiscoveryService } from './openapi-discovery.service';
+import { environment } from '../../../environments/environment';
 
 describe('OpenApiDiscoveryService', () => {
   let service: OpenApiDiscoveryService;
   let httpMock: HttpTestingController;
+  const swaggerUrl = `${environment.apiBaseUrl}${environment.openApiPath}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +25,7 @@ describe('OpenApiDiscoveryService', () => {
   it('loads swagger and maps entities', async () => {
     const loadPromise = service.load();
 
-    const req = httpMock.expectOne('http://localhost:5219/swagger/v1/swagger.json');
+    const req = httpMock.expectOne(swaggerUrl);
     expect(req.request.method).toBe('GET');
 
     req.flush({
@@ -98,11 +100,11 @@ describe('OpenApiDiscoveryService', () => {
 
   it('does not call swagger twice when already loaded', async () => {
     const firstLoad = service.load();
-    httpMock.expectOne('http://localhost:5219/swagger/v1/swagger.json').flush({ paths: {} });
+    httpMock.expectOne(swaggerUrl).flush({ paths: {} });
     await firstLoad;
 
     await service.load();
 
-    httpMock.expectNone('http://localhost:5219/swagger/v1/swagger.json');
+    httpMock.expectNone(swaggerUrl);
   });
 });

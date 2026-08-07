@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiBaseUrl: 'http://localhost:5219',
+  production: true,
+  apiBaseUrl: 'https://academicoapp-production.up.railway.app',
   apiVersion: '1',
   openApiPath: '/swagger/v1/swagger.json'
 };
