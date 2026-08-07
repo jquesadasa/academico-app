@@ -17,8 +17,15 @@
 
   <mat-sidenav-content>
     <mat-toolbar class="top-bar">
-      <button mat-icon-button (click)="toggleSideNav()" aria-label="Mostrar menu">
-        <mat-icon>menu</mat-icon>
+      <button
+        class="top-icon-btn"
+        mat-icon-button
+        (click)="toggleSideNav()"
+        [attr.aria-label]="sideNavTooltip()"
+        [matTooltip]="sideNavTooltip()"
+        matTooltipPosition="below"
+      >
+        <mat-icon>{{ collapsed() ? 'menu' : 'menu_open' }}</mat-icon>
       </button>
 
       <div class="breadcrumbs" aria-label="Breadcrumb">
@@ -27,15 +34,29 @@
         }
       </div>
 
-      <button class="command-btn" mat-stroked-button (click)="openCommandPalette()" aria-label="Abrir paleta de comandos">
-        <mat-icon>terminal</mat-icon>
+      <button
+        class="command-btn"
+        mat-stroked-button
+        (click)="openCommandPalette()"
+        aria-label="Abrir paleta de comandos"
+        matTooltip="Abre la paleta de comandos y atajos de navegacion"
+        matTooltipPosition="below"
+      >
+        <mat-icon>keyboard_command_key</mat-icon>
         <span>Comandos</span>
         <small>Ctrl+K</small>
       </button>
 
       <span class="spacer"></span>
 
-      <button mat-icon-button (click)="themeService.toggle()" aria-label="Cambiar tema">
+      <button
+        class="top-icon-btn"
+        mat-icon-button
+        (click)="themeService.toggle()"
+        [attr.aria-label]="themeTooltip()"
+        [matTooltip]="themeTooltip()"
+        matTooltipPosition="below"
+      >
         <mat-icon>{{ themeService.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
     </mat-toolbar>

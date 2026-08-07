@@ -62,6 +62,24 @@
   backdrop-filter: blur(10px);
 }
 
+.top-icon-btn {
+  border: 1px solid color-mix(in srgb, var(--border-color) 78%, transparent);
+  background: color-mix(in srgb, var(--card-bg) 94%, transparent);
+  color: var(--text-secondary) !important;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+.top-icon-btn:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--card-bg) 82%, var(--accent) 18%);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.top-icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .breadcrumbs {
   display: flex;
   gap: 0.5rem;
@@ -77,9 +95,16 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border-color: var(--border-color) !important;
+  border-color: color-mix(in srgb, var(--border-color) 70%, transparent) !important;
   color: var(--text-secondary) !important;
-  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+  background: color-mix(in srgb, var(--card-bg) 94%, transparent);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+.command-btn:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--card-bg) 82%, var(--accent) 18%);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 26%, transparent);
 }
 
 .command-btn small {
