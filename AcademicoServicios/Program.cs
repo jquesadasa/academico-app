@@ -65,6 +65,8 @@ if (enableSwagger)
 }
 
 app.UseHttpsRedirection();
+app.MapGet("/", () => Results.Ok(new { status = "ok", service = "AcademicoServicios" }));
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 app.MapControllers();
 
 app.Run();
