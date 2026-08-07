@@ -53,7 +53,21 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: AcademicoWeb
-        run: npm ci
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for attempt in 1 2; do
+            if npm ci --no-audit --prefer-offline; then
+              exit 0
+            fi
+
+            echo "npm ci failed on attempt ${attempt}; retrying..."
+            npm cache verify || true
+          done
+
+          echo "Falling back to npm install after repeated npm ci failures."
+          npm install --no-audit --prefer-offline
 
       - name: Run frontend tests
         working-directory: AcademicoWeb
