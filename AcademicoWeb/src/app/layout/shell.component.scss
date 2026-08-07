@@ -69,6 +69,12 @@
   transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
 }
 
+.top-icon-btn mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
 .top-icon-btn:hover {
   transform: translateY(-1px);
   background: color-mix(in srgb, var(--card-bg) 82%, var(--accent) 18%);
@@ -99,6 +105,12 @@
   color: var(--text-secondary) !important;
   background: color-mix(in srgb, var(--card-bg) 94%, transparent);
   transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+.command-btn mat-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .command-btn:hover {
