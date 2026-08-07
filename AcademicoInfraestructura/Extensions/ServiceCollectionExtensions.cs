@@ -80,8 +80,14 @@ public static class ServiceCollectionExtensions
             return ParseDatabaseUrl(databaseUrl);
         }
 
+        var connectionFromParts = BuildConnectionStringFromDiscreteVariables(configuration);
+        if (!string.IsNullOrWhiteSpace(connectionFromParts))
+        {
+            return connectionFromParts;
+        }
+
         throw new InvalidOperationException(
-            "Database connection not configured. Set ConnectionStrings:DefaultConnection or DATABASE_URL/POSTGRES_URL environment variables.");
+            "Database connection not configured. Set ConnectionStrings:DefaultConnection, DATABASE_URL/POSTGRES_URL, or PGHOST/PGPORT/PGDATABASE/PGUSER/PGPASSWORD environment variables.");
     }
 
     private static string ParseDatabaseUrl(string databaseUrl)
@@ -109,6 +115,41 @@ public static class ServiceCollectionExtensions
             Database = uri.AbsolutePath.TrimStart('/'),
             Username = Uri.UnescapeDataString(userInfo[0]),
             Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty,
+            SslMode = SslMode.Require
+        };
+
+        return builder.ConnectionString;
+    }
+
+    private static string? BuildConnectionStringFromDiscreteVariables(IConfiguration configuration)
+    {
+        var host = configuration["PGHOST"] ?? configuration["POSTGRES_HOST"];
+        var portText = configuration["PGPORT"] ?? configuration["POSTGRES_PORT"];
+        var database = configuration["PGDATABASE"] ?? configuration["POSTGRES_DB"];
+        var username = configuration["PGUSER"] ?? configuration["POSTGRES_USER"];
+        var password = configuration["PGPASSWORD"] ?? configuration["POSTGRES_PASSWORD"];
+
+        if (string.IsNullOrWhiteSpace(host) ||
+            string.IsNullOrWhiteSpace(database) ||
+            string.IsNullOrWhiteSpace(username) ||
+            string.IsNullOrWhiteSpace(password))
+        {
+            return null;
+        }
+
+        var port = 5432;
+        if (!string.IsNullOrWhiteSpace(portText) && int.TryParse(portText, out var parsedPort) && parsedPort > 0)
+        {
+            port = parsedPort;
+        }
+
+        var builder = new NpgsqlConnectionStringBuilder
+        {
+            Host = host,
+            Port = port,
+            Database = database,
+            Username = username,
+            Password = password,
             SslMode = SslMode.Require
         };
 
