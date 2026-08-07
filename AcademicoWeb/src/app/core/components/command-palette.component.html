@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Paleta de comandos</h2>
+<mat-dialog-content class="palette-content">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Buscar comando o entidad</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Escribe para filtrar..." />
+  </mat-form-field>
+
+  <mat-nav-list>
+    @for (item of commands(); track item.id) {
+      <a mat-list-item (click)="open(item)">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+        <span matListItemLine>{{ item.description }}</span>
+      </a>
+    }
+
+    @if (commands().length === 0) {
+      <div class="empty-result">Sin resultados para tu busqueda.</div>
+    }
+  </mat-nav-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

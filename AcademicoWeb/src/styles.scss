@@ -1,0 +1,347 @@
+@use '@angular/material' as mat;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
+
+@include mat.core();
+
+$light-theme: mat.define-theme((
+	color: (
+		theme-type: light,
+		primary: mat.$azure-palette,
+		tertiary: mat.$blue-palette
+	),
+	typography: (
+		brand-family: 'Outfit, Inter, sans-serif',
+		plain-family: 'Inter, Outfit, sans-serif'
+	),
+	density: (
+		scale: 0
+	)
+));
+
+$dark-theme: mat.define-theme((
+	color: (
+		theme-type: dark,
+		primary: mat.$azure-palette,
+		tertiary: mat.$blue-palette
+	),
+	typography: (
+		brand-family: 'Outfit, Inter, sans-serif',
+		plain-family: 'Inter, Outfit, sans-serif'
+	),
+	density: (
+		scale: 0
+	)
+));
+
+:root {
+	color-scheme: light;
+	@include mat.all-component-themes($light-theme);
+	--body-font-family: 'Outfit', 'Inter', sans-serif;
+	--mono-font-family: 'Roboto Mono', monospace;
+
+	--bg-app: #f1f5f9;
+	--text-primary: #0f172a;
+	--text-secondary: #475569;
+	--text-muted: #64748b;
+	--text-muted-soft: #94a3b8;
+
+	--card-bg: #ffffff;
+	--card-border: rgba(15, 23, 42, 0.06);
+	--card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+	--card-hover-border: rgba(99, 102, 241, 0.3);
+	--card-hover-shadow: 0 20px 40px -5px rgba(15, 23, 42, 0.12), 0 12px 20px -8px rgba(15, 23, 42, 0.06);
+
+	--border-color: #e2e8f0;
+	--border-color-soft: #f8fafc;
+
+	--indigo-500: #6366f1;
+	--indigo-600: #4f46e5;
+	--accent: var(--indigo-500);
+	--accent-hover: var(--indigo-600);
+
+	--state-success: #10b981;
+	--state-success-bg: rgba(16, 185, 129, 0.1);
+	--state-warning: #f59e0b;
+	--state-warning-bg: rgba(245, 158, 11, 0.1);
+	--state-danger: #f43f5e;
+	--state-danger-bg: rgba(244, 63, 94, 0.1);
+	--state-secondary: #8b5cf6;
+
+	--table-header-bg: #f8fafc;
+	--table-row-even: #f8fafc;
+	--table-row-hover: rgba(99, 102, 241, 0.04);
+	--table-text: #334155;
+
+	--sidebar-bg-grad: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+	--sidebar-text: #64748b;
+	--sidebar-link-hover-bg: rgba(99, 102, 241, 0.06);
+	--sidebar-link-hover-text: #4f46e5;
+	--menu-active-bg: linear-gradient(135deg, var(--indigo-500) 0%, var(--indigo-600) 100%);
+	--menu-active-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+:root.dark-mode {
+	color-scheme: dark;
+	@include mat.all-component-colors($dark-theme);
+	--bg-app: #080d16;
+	--text-primary: #f8fafc;
+	--text-secondary: #cbd5e1;
+	--text-muted: #94a3b8;
+	--text-muted-soft: #64748b;
+
+	--card-bg: rgba(15, 23, 42, 0.45);
+	--card-border: rgba(255, 255, 255, 0.07);
+	--card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+	--card-hover-border: rgba(99, 102, 241, 0.45);
+	--card-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+
+	--border-color: rgba(255, 255, 255, 0.08);
+	--border-color-soft: rgba(255, 255, 255, 0.04);
+
+	--indigo-500: #818cf8;
+	--indigo-600: #6366f1;
+	--accent: var(--indigo-500);
+	--accent-hover: var(--indigo-600);
+
+	--state-success: #34d399;
+	--state-success-bg: rgba(52, 211, 153, 0.15);
+	--state-warning: #fbbf24;
+	--state-warning-bg: rgba(251, 191, 36, 0.15);
+	--state-danger: #fb7185;
+	--state-danger-bg: rgba(251, 113, 133, 0.15);
+
+	--table-header-bg: #111827;
+	--table-row-even: rgba(255, 255, 255, 0.015);
+	--table-row-hover: rgba(99, 102, 241, 0.08);
+	--table-text: #e2e8f0;
+
+	--sidebar-bg-grad: linear-gradient(180deg, #090d16 0%, #030508 100%);
+	--sidebar-text: #8295b9;
+	--sidebar-link-hover-bg: rgba(255, 255, 255, 0.04);
+	--sidebar-link-hover-text: #ffffff;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: var(--body-font-family);
+	background: var(--bg-app);
+	color: var(--text-primary);
+	letter-spacing: -0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-heading,
+.mat-mdc-card-title,
+.mat-mdc-dialog-title,
+.mat-toolbar {
+	font-family: 'Outfit', 'Inter', sans-serif !important;
+	font-weight: 700;
+}
+
+a {
+	text-decoration: none;
+	color: var(--accent);
+}
+
+.glass-card,
+.mat-mdc-card.glass-card,
+.mat-mdc-dialog-surface {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid transparent;
+	background-image: linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+	background-origin: border-box;
+	background-clip: padding-box, border-box;
+	box-shadow: var(--card-shadow);
+	border-radius: 16px;
+	transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+	position: relative;
+	overflow: hidden;
+}
+
+.glass-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -150%;
+	width: 50%;
+	height: 100%;
+	background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+	transform: skewX(-25deg);
+	transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+	pointer-events: none;
+	z-index: 1;
+}
+
+.glass-card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--card-hover-shadow);
+}
+
+.glass-card:hover::before {
+	left: 150%;
+}
+
+.table-responsive-container {
+	display: grid;
+	gap: 0.75rem;
+	max-width: 100%;
+}
+
+.table-scroll-wrapper {
+	overflow: auto;
+	border-radius: 12px;
+	border: 1px solid var(--border-color);
+}
+
+.mat-mdc-table,
+table[mat-table] {
+	background: var(--card-bg) !important;
+	border: 1px solid var(--border-color) !important;
+	border-radius: 12px !important;
+	overflow: hidden !important;
+	box-shadow: var(--card-shadow) !important;
+}
+
+.mat-mdc-header-row,
+tr[mat-header-row] {
+	background-color: var(--table-header-bg) !important;
+	border-bottom: 1px solid var(--border-color) !important;
+}
+
+.mat-mdc-header-cell,
+th[mat-header-cell] {
+	color: var(--text-primary) !important;
+	text-transform: uppercase;
+	font-size: 0.72rem !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.05em;
+	font-family: 'Outfit', 'Inter', sans-serif !important;
+	padding: 14px 16px !important;
+}
+
+.mat-mdc-row:nth-child(even),
+tr[mat-row]:nth-child(even) {
+	background-color: var(--table-row-even) !important;
+}
+
+.mat-mdc-row:hover,
+tr[mat-row]:hover {
+	background-color: var(--table-row-hover) !important;
+}
+
+.mat-mdc-cell,
+td[mat-cell] {
+	color: var(--table-text) !important;
+	font-size: 0.85rem !important;
+	font-weight: 500 !important;
+	font-family: 'Inter', sans-serif !important;
+	padding: 12px 16px !important;
+}
+
+.mat-mdc-form-field .mat-mdc-floating-label,
+.mat-mdc-form-field .mdc-floating-label,
+.mat-mdc-form-field label {
+	overflow: visible !important;
+	text-overflow: clip !important;
+}
+
+.mdc-notched-outline__notch {
+	overflow: visible !important;
+}
+
+.mat-mdc-form-field:has(mat-select) .mat-mdc-floating-label,
+.mat-mdc-form-field:has(mat-select) .mdc-floating-label {
+	margin-left: 10px !important;
+}
+
+.mat-mdc-form-field.mat-form-field-required .mat-mdc-floating-label,
+.mat-mdc-form-field.mat-form-field-required .mdc-floating-label,
+.mat-mdc-form-field.mat-form-field-required mat-label {
+	color: var(--state-danger) !important;
+}
+
+.estado {
+	border-radius: 30px;
+	padding: 6px 14px;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 95px;
+}
+
+.estado[class*='BUENO'],
+.estado[class*='Bueno'],
+.estado[class*='FINALIZADO'],
+.estado[class*='NUEVO'] {
+	background-color: var(--state-success-bg);
+	color: var(--state-success);
+	border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.estado[class*='REGULAR'],
+.estado[class*='Regular'],
+.estado[class*='REVISAR'],
+.estado[class*='REPARACION'] {
+	background-color: var(--state-warning-bg);
+	color: var(--state-warning);
+	border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.estado[class*='MALO'],
+.estado[class*='Malo'],
+.estado[class*='ELIMINADO'],
+.estado[class*='OBSOLETO'],
+.estado[class*='BAJA'] {
+	background-color: var(--state-danger-bg);
+	color: var(--state-danger);
+	border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.toast-success .mat-mdc-snack-bar-label {
+	color: var(--state-success);
+}
+
+.toast-error .mat-mdc-snack-bar-label {
+	color: var(--state-danger);
+}
+
+.skeleton-block {
+	background: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--card-border) 80%, transparent) 25%,
+		color-mix(in srgb, var(--card-bg) 60%, transparent) 50%,
+		color-mix(in srgb, var(--card-border) 80%, transparent) 75%
+	);
+	background-size: 200% 100%;
+	animation: shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+.command-palette-dialog .mat-mdc-dialog-surface,
+.onboarding-dialog .mat-mdc-dialog-surface {
+	border: 1px solid var(--card-border);
+	border-radius: 16px;
+	box-shadow: var(--card-hover-shadow);
+}
+/* You can add global styles to this file, and also import other style files */

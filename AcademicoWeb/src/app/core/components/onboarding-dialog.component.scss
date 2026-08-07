@@ -1,0 +1,25 @@
+.onboarding-grid {
+  display: grid;
+  gap: 0.85rem;
+  min-width: min(620px, 92vw);
+}
+
+.tip {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+}
+
+.tip mat-icon {
+  color: var(--accent);
+}
+
+.tip p {
+  margin: 0.25rem 0 0;
+  color: var(--text-secondary);
+}

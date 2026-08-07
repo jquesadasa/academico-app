@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  height: 100dvh;
+}
+
+.shell {
+  height: 100%;
+  background: radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 10%, transparent), var(--bg-app) 55%, var(--bg-app));
+}
+
+.side-nav {
+  width: 280px;
+  border-right: 1px solid var(--border-color);
+  background: var(--sidebar-bg-grad);
+  color: var(--sidebar-text);
+}
+
+.brand {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.brand-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.03rem;
+  color: var(--text-primary);
+}
+
+.brand-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep .side-nav .mat-mdc-list-item {
+  border-radius: 10px;
+  margin: 0.15rem 0.5rem;
+  color: var(--sidebar-text) !important;
+}
+
+:host ::ng-deep .side-nav .mat-mdc-list-item:hover {
+  background: var(--sidebar-link-hover-bg);
+  color: var(--sidebar-link-hover-text) !important;
+}
+
+:host ::ng-deep .side-nav .mat-mdc-list-item.mdc-list-item--activated,
+:host ::ng-deep .side-nav .mat-mdc-list-item[aria-current='page'] {
+  background: var(--menu-active-bg);
+  color: #ffffff !important;
+  box-shadow: var(--menu-active-shadow);
+}
+
+:host ::ng-deep .side-nav .mat-mdc-list-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.top-bar {
+  gap: 0.75rem;
+  background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.breadcrumbs {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.command-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-color: var(--border-color) !important;
+  color: var(--text-secondary) !important;
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+}
+
+.command-btn small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.content {
+  padding: 1rem;
+}
+
+@media (max-width: 960px) {
+  .side-nav {
+    width: 240px;
+  }
+}

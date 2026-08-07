@@ -1,0 +1,23 @@
+<section class="header">
+  <h1>Panel de Control</h1>
+  <p>Administra los mantenimientos del API desde una sola interfaz.</p>
+</section>
+
+<section class="cards">
+  @for (entity of discoveryService.entities(); track entity.key) {
+    <a class="card glass-card" [routerLink]="'/mantenimientos/' + entity.key">
+      <mat-icon>dataset</mat-icon>
+      <div>
+        <h2>{{ entity.label }}</h2>
+        <p>CRUD completo disponible</p>
+      </div>
+    </a>
+  }
+</section>
+
+@if (discoveryService.entities().length === 0) {
+  <section class="empty-state glass-card">
+    <h3>No hay entidades disponibles</h3>
+    <p>Verifica que el backend y Swagger esten ejecutandose.</p>
+  </section>
+}

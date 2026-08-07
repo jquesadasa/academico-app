@@ -1,0 +1,84 @@
+name: CI-CD Vercel
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Run Backend and Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore .NET dependencies
+        run: dotnet restore AcademicoApp.slnx
+
+      - name: Build .NET solution
+        run: dotnet build AcademicoApp.slnx --configuration Release --no-restore
+
+      - name: Run .NET tests
+        run: dotnet test AcademicoApp.slnx --configuration Release --no-build --verbosity normal
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: AcademicoWeb/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: AcademicoWeb
+        run: npm ci
+
+      - name: Run frontend tests
+        working-directory: AcademicoWeb
+        run: npm run test -- --watch=false
+
+  deploy:
+    name: Deploy to Vercel Production
+    runs-on: ubuntu-latest
+    needs: tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: AcademicoWeb/package-lock.json
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment
+        working-directory: AcademicoWeb
+        run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
+
+      - name: Build on Vercel
+        working-directory: AcademicoWeb
+        run: vercel build --prod --token=${{ env.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        working-directory: AcademicoWeb
+        run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}

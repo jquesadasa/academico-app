@@ -1,0 +1,11 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  min-width: min(700px, 100%);
+}
+
+.form-dialog-content {
+  padding: 0.75rem 0.25rem !important;
+  border: 1px solid var(--card-border);
+}

@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="AcademicoDominio.Tests/AcademicoDominio.Tests.csproj" />
+  <Project Path="AcademicoDominio/AcademicoDominio.csproj" />
+  <Project Path="AcademicoInfraestructura.Tests/AcademicoInfraestructura.Tests.csproj" />
+  <Project Path="AcademicoInfraestructura/AcademicoInfraestructura.csproj" />
+  <Project Path="AcademicoNegocio/AcademicoNegocio.csproj" />
+  <Project Path="AcademicoNegocio.Tests/AcademicoNegocio.Tests.csproj" />
+  <Project Path="AcademicoServicios.Tests/AcademicoServicios.Tests.csproj" />
+  <Project Path="AcademicoServicios/AcademicoServicios.csproj" />
+</Solution>

@@ -1,0 +1,12 @@
+.palette-content {
+  min-width: min(680px, 94vw);
+}
+
+.search-field {
+  width: 100%;
+}
+
+.empty-result {
+  padding: 1rem;
+  color: var(--text-muted);
+}

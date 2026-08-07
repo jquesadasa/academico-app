@@ -1,0 +1,51 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav [mode]="'side'" [opened]="!collapsed()" class="side-nav">
+    <div class="brand">
+      <div class="brand-title">Academico</div>
+      <div class="brand-subtitle">Mantenimientos</div>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">Dashboard</a>
+      <a mat-list-item routerLink="/reportes/bandas">Reporte de bandas</a>
+
+      @for (entity of discoveryService.entities(); track entity.key) {
+        <a mat-list-item [routerLink]="'/mantenimientos/' + entity.key">{{ entity.label }}</a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="top-bar">
+      <button mat-icon-button (click)="toggleSideNav()" aria-label="Mostrar menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="breadcrumbs" aria-label="Breadcrumb">
+        @for (crumb of breadcrumbs(); track crumb.url) {
+          <a [routerLink]="crumb.url">{{ crumb.label }}</a>
+        }
+      </div>
+
+      <button class="command-btn" mat-stroked-button (click)="openCommandPalette()" aria-label="Abrir paleta de comandos">
+        <mat-icon>terminal</mat-icon>
+        <span>Comandos</span>
+        <small>Ctrl+K</small>
+      </button>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button (click)="themeService.toggle()" aria-label="Cambiar tema">
+        <mat-icon>{{ themeService.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    @if (loadingService.isLoading()) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

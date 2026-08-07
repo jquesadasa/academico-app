@@ -1,0 +1,42 @@
+# .NET build artifacts
+**/bin/
+**/obj/
+
+# User/IDE files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# VS Code local settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+
+# Node/Angular
+**/node_modules/
+**/dist/
+**/.angular/cache/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test and coverage outputs
+**/coverage/
+**/TestResults/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local tools and caches
+*.log
+*.tmp
+
+# AI tooling local metadata
+.agents/
+.claude/

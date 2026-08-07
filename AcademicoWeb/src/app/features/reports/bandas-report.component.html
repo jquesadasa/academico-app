@@ -1,0 +1,189 @@
+<section class="report-page">
+  <header class="header">
+    <div>
+      <h1>Reporte Consolidado de Bandas</h1>
+      <p>Genera el consolidado por seccion y periodo para Monografia, TdC y asignaturas.</p>
+    </div>
+  </header>
+
+  <mat-card class="filters glass-card">
+    <div class="filters-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Seccion</mat-label>
+        <mat-select [formControl]="seccionId">
+          @for (seccion of secciones(); track seccion['id']) {
+            <mat-option [value]="numberValue(seccion['id'])">
+              {{ text(seccion['codigo']) }} - {{ text(seccion['nombre']) }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Periodo</mat-label>
+        <mat-select [formControl]="periodoId">
+          @for (periodo of periodos(); track periodo['id']) {
+            <mat-option [value]="numberValue(periodo['id'])">
+              {{ text(periodo['nombre']) }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="generar()" [disabled]="cargando()">
+        <mat-icon>assessment</mat-icon>
+        Generar reporte
+      </button>
+
+      <button mat-stroked-button (click)="exportarCsv()" [disabled]="cargando()">
+        <mat-icon>download</mat-icon>
+        Exportar CSV
+      </button>
+    </div>
+  </mat-card>
+
+  <mat-card class="upload-zone glass-card">
+    <label
+      class="drop-zone"
+      [class.dragging]="draggingFile()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <input type="file" accept=".xlsx,.xls,.csv" (change)="onFileInputChange($event)" hidden />
+      <mat-icon>upload_file</mat-icon>
+      <div>
+        <strong>Arrastra un archivo Excel/CSV</strong>
+        <p>Previsualizacion local para revision antes de importar.</p>
+      </div>
+    </label>
+
+    @if (previewFileName()) {
+      <div class="file-preview">
+        <mat-icon>description</mat-icon>
+        <span>{{ previewFileName() }}</span>
+        <small>{{ previewFileSize() }}</small>
+      </div>
+    }
+  </mat-card>
+
+  @if (cargando()) {
+    <div class="loading-skeleton">
+      <div class="skeleton-block sk-line sk-title"></div>
+      <div class="skeleton-block sk-line"></div>
+      <div class="skeleton-block sk-line"></div>
+      <div class="skeleton-block sk-line"></div>
+    </div>
+  }
+
+  @if (reporte(); as reporte) {
+    <mat-card class="summary glass-card">
+      <div class="summary-row">
+        <div><strong>Seccion:</strong> {{ text(reporte.seccionCodigo) }}</div>
+        <div><strong>Periodo:</strong> {{ text(reporte.periodoNombre) }}</div>
+        <div><strong>Estudiantes:</strong> {{ totalEstudiantes() }}</div>
+      </div>
+    </mat-card>
+
+    <div class="student-grid">
+      @for (estudiante of estudiantes(); track estudiante.estudianteId) {
+        <mat-card class="student-card glass-card">
+          <h2>{{ text(estudiante.numeroLista) }}. {{ estudiante.nombreCompleto }}</h2>
+          <div class="student-meta">Cedula: {{ estudiante.cedula }}</div>
+
+          <div class="blocks">
+            <section class="glass-card">
+              <h3>Monografia</h3>
+              <p><strong>Area:</strong> {{ text(estudiante.monografia?.areaInvestigacion) }}</p>
+              <p><strong>Supervisor:</strong> {{ text(estudiante.monografia?.supervisorNombre) }}</p>
+              <p><strong>Banda:</strong> {{ text(estudiante.monografia?.bandaAlcanzada) }}</p>
+              <p><strong>Observaciones:</strong> {{ text(estudiante.monografia?.observaciones) }}</p>
+            </section>
+
+            <section class="glass-card">
+              <h3>Teoria del conocimiento</h3>
+              <p><strong>Banda:</strong> {{ text(estudiante.teoriaConocimiento?.bandaAlcanzada) }}</p>
+              <p>
+                <strong>Ausentismo:</strong>
+                Exh {{ text(estudiante.teoriaConocimiento?.ausentismoExhibicion) }} /
+                Oral {{ text(estudiante.teoriaConocimiento?.ausentismoOralidad) }}
+              </p>
+              <p><strong>Obs. exhibicion:</strong> {{ text(estudiante.teoriaConocimiento?.observacionesExhibicion) }}</p>
+              <p><strong>Obs. argumentos:</strong> {{ text(estudiante.teoriaConocimiento?.observacionesArgumentos) }}</p>
+            </section>
+          </div>
+
+          <div class="tables">
+            <section class="glass-card">
+              <h3>Asignaturas BI</h3>
+              @if (estudiante.evaluacionesBI.length === 0) {
+                <p class="empty">Sin evaluaciones BI.</p>
+              } @else {
+                <div class="table-responsive-container">
+                  <div class="table-scroll-wrapper">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Asignatura</th>
+                          <th>Min</th>
+                          <th>Logro</th>
+                          <th>Ausentismo (T/I/J)</th>
+                          <th>Aprobado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (item of estudiante.evaluacionesBI; track item.asignatura) {
+                          <tr>
+                            <td>{{ item.asignatura }}</td>
+                            <td>{{ item.bandaMinima }}</td>
+                            <td>{{ text(item.bandaAlcanzada) }}</td>
+                            <td>{{ item.ausentismoTardias }}/{{ item.ausentismoInjustificadas }}/{{ item.ausentismoJustificadas }}</td>
+                            <td>{{ item.aprobado ? 'Si' : 'No' }}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              }
+            </section>
+
+            <section class="glass-card">
+              <h3>Asignaturas Nacionales</h3>
+              @if (estudiante.evaluacionesNacionales.length === 0) {
+                <p class="empty">Sin evaluaciones nacionales.</p>
+              } @else {
+                <div class="table-responsive-container">
+                  <div class="table-scroll-wrapper">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Asignatura</th>
+                          <th>Min</th>
+                          <th>Nota</th>
+                          <th>Ausentismo (T/I/J)</th>
+                          <th>Condicion</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (item of estudiante.evaluacionesNacionales; track item.asignatura) {
+                          <tr>
+                            <td>{{ item.asignatura }}</td>
+                            <td>{{ item.notaMinima }}</td>
+                            <td>{{ text(item.notaObtenida) }}</td>
+                            <td>{{ item.ausentismoTardias }}/{{ item.ausentismoInjustificadas }}/{{ item.ausentismoJustificadas }}</td>
+                            <td>{{ item.condicion }}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              }
+            </section>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</section>
