@@ -3,7 +3,7 @@
   "framework": "angular",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/AcademicoWeb/browser",
-  "installCommand": "npm ci",
+  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/(.*)",
